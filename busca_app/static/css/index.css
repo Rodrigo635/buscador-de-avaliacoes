@@ -71,6 +71,12 @@ header {
     padding-left: 110px;
 }
 
+.brand img {
+    width: 100%;
+    height: 35px;
+    display: flex;
+}
+
 .brand:hover {
     color: var(--hotel-red);
 }
@@ -218,12 +224,22 @@ header .navegation a:hover:before {
     color: var(--light-gold);
 }
 
-.navigation .menu-btn .title{
-    font-size: 1.4em;
+.navigation .menu-btn .title {
+    display: flex;
+    align-items: center;
+    font-size: 1.1em;
     font-weight: 700;
     color: var(--bg2);
     text-decoration: none;
     text-wrap: nowrap;
+}
+
+.navigation .menu-btn .title img {
+    width: 35px;
+    height: auto;
+    margin-right: 10px;
+    display: flex;
+    padding-left: 2px;
 }
 
 .navigation ul li.list:first-child {

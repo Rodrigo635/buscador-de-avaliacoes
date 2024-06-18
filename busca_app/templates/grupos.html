@@ -1,0 +1,76 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="../static/css/index.css">
+</head>
+
+<body id="group">
+
+    <div class="content">
+        <div class="search-and-add">
+            <h1>Grupos Cadastrados</h1>
+            <a class="add_atividade" href="{% url 'cadastro_grupo' %}">
+                <span class="icon"><ion-icon name="add-circle-outline"></ion-icon></span>
+                <span class="title">Cadastrar grupo</span>
+            </a>
+        </div>
+        <form class="search" action="#" method="GET">
+            <input type="text" name="q" placeholder="Pesquisar por nome...">
+            <button type="submit"><ion-icon name="search"></ion-icon></button>
+        </form>
+        <table class="atividades-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th class="delete"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for grupo in grupos %}
+                <tr>
+                    <td><a href="{% url 'editar_grupo' grupo.id %}">{{ grupo.name }}</a></td>
+                    <td><a href="#" class="delete-btn" data-id="{{ grupo.id }}"><ion-icon name="trash-outline"></ion-icon></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        {% if atividades.has_other_pages %}
+        <span class="step-links">
+            {% if grupos.has_previous %}
+                <a href="?page=1">&laquo; Primeira</a>
+                <a href="?page={{ grupos.previous_page_number }}">Anterior</a>
+            {% endif %}
+    
+            <span class="current">
+                Página {{ grupos.number }} de {{ grupos.paginator.num_pages }}
+            </span>
+    
+            {% if grupos.has_next %}
+                <a href="?page={{ grupos.next_page_number }}">Próxima</a>
+                <a href="?page={{ grupos.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        </span>
+        {% endif %}
+    </div>
+    
+
+    <script>
+        localStorage.setItem('paginaAtual', 'grups');
+
+        document.querySelectorAll('.delete-btn').forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const confirmDelete = confirm('Tem certeza que deseja deletar este grupo?');
+                if (confirmDelete) {
+                    const grupoId = this.getAttribute('data-id');
+                    window.location.href = `/deletar_grupo/${grupoId}/`;
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

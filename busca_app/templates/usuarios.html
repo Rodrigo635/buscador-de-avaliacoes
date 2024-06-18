@@ -1,0 +1,71 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="content">
+    <div class="search-and-add">
+        <h1>Usuários Cadastrados</h1>
+        <a class="add_atividade" href="{% url 'cadastro_user' %}">
+            <span class="icon"><ion-icon name="add-circle-outline"></ion-icon></span>
+            <span class="title">Cadastrar usuário</span>
+        </a>
+    </div>
+    <form class="search" action="" method="GET">
+        <input type="text" name="q" placeholder="Pesquisar por nome..." value="{{ request.GET.q }}">
+        <button type="submit"><ion-icon name="search"></ion-icon></button>
+    </form>
+    <table class="atividades-table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Endereço de email</th>
+                <th>Membro da equipe</th>
+                <th class="delete"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td><a href="{% url 'user_update' user.pk %}">{{ user.username }}</a></td>
+                <td><a href="{% url 'user_update' user.pk %}">{{ user.email }}</a></td>
+                <td><a href="{% url 'user_update' user.pk %}">{{ user.teams.count }}</a></td>
+                <td><a href="#" class="delete-btn" data-id="{{ user.pk }}"><ion-icon name="trash-outline"></ion-icon></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="pagination">
+        {% if users.has_other_pages %}
+        <span class="step-links">
+            {% if users.has_previous %}
+                <a href="?page=1">&laquo; Primeira</a>
+                <a href="?page={{ users.previous_page_number }}">Anterior</a>
+            {% endif %}
+    
+            <span class="current">Página {{ users.number }} de {{ users.paginator.num_pages }}</span>
+    
+            {% if users.has_next %}
+                <a href="?page={{ users.next_page_number }}">Próxima</a>
+                <a href="?page={{ users.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        </span>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    localStorage.setItem('paginaAtual', 'atividades');
+
+    document.querySelectorAll('.delete-btn').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const confirmDelete = confirm('Tem certeza que deseja deletar este usuário?');
+            if (confirmDelete) {
+                const userId = this.getAttribute('data-id');
+                window.location.href = `/users/${userId}/delete/`;
+            }
+        });
+    });
+</script>
+
+{% endblock %}

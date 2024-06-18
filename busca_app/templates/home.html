@@ -53,12 +53,12 @@
         <table class="atividades-table">
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Texto</th>
+                    <th>Usuário</th>
+                    <th>Nota <span style="font-weight: 500; color: #929292;">(1-5)</span></th>
+                    <th>Comentário</th>
+                    <th>Idioma</th>
                     <th>Plataforma</th>
                     <th>Data</th>
-                    <th>Classificação</th>
-                    <th>Idioma</th>
                     <th>Encontrado por</th>
                 </tr>
             </thead>
@@ -66,11 +66,11 @@
                 {% for avaliacao in avaliacoes %}
                 <tr>
                     <td><a href="#">{{ avaliacao.nome }}</a></td>
+                    <td><a href="#">{{ avaliacao.classificacao }}</a></td>
                     <td><a href="#">{{ avaliacao.texto }}</a></td>
+                    <td><a href="#">{{ avaliacao.idioma }}</a></td>
                     <td><a href="#">{{ avaliacao.plataforma }}</a></td>
                     <td><a href="#">{{ avaliacao.data }}</a></td>
-                    <td><a href="#">{{ avaliacao.classificacao }}</a></td>
-                    <td><a href="#">{{ avaliacao.idioma }}</a></td>
                     <td><a href="#">{{ avaliacao.encontrado_por.username }}</a></td>
                 </tr>
                 {% endfor %}

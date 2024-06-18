@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<div class="content">
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+
+    <h2 class="titulo-cadastro">Editar {{ mensagem }}</h2>
+    <form class="activity-form" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="submit-button">Salvar Alterações</button>
+    </form>
+</div>
+
+{% endblock %}

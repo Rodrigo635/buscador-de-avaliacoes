@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="content">
+
+    <h2 class="titulo-cadastro">Cadastrar {{ mensagem }}</h2>
+    <form class="activity-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="submit-button">Salvar</button>
+        <button type="submit-continue" class="submit-button">Salvar e continuar editando</button>
+        <button type="submit-add" class="submit-button">Salvar e cadastrar outro(a)</button>
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+{% endblock %}
