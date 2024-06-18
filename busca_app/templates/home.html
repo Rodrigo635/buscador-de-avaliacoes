@@ -1,0 +1,114 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Avaliações</title>
+    <link rel="stylesheet" href="../static/css/home.css">
+</head>
+
+<body id="atividades">
+
+    <div class="content">
+        <div class="search-and-add">
+            <h1>Avaliações do hotel</h1>
+            <div class="button-group">
+                <a class="add_atividade" href="{% url 'buscar' %}">
+                    <span class="icon"><ion-icon name="add-circle-outline"></ion-icon></span>
+                    <span class="title">Buscar novas avaliações</span>
+                </a>
+            </div>
+        </div>
+        <form class="search" action="{% url 'home' %}" method="GET">
+            <input type="text" name="q" placeholder="Pesquisar por nome..." value="{{ request.GET.q }}">
+            <input type="date" name="data" placeholder="Pesquisar por data..." value="{{ request.GET.data }}">
+            <select name="plataforma">
+                <option value="">Todas as plataformas</option>
+                {% for plataforma in plataformas %}
+                <option value="{{ plataforma.0 }}" {% if request.GET.plataforma == plataforma.0 %}selected{% endif %}>{{ plataforma.1 }}</option>
+                {% endfor %}
+            </select>
+            <select name="idioma">
+                <option value="">Todos os idiomas</option>
+                {% for idioma in idiomas %}
+                <option value="{{ idioma.0 }}" {% if request.GET.idioma == idioma.0 %}selected{% endif %}>{{ idioma.1 }}</option>
+                {% endfor %}
+            </select>
+            <select name="classificacao">
+                <option value="">Todas as classificações</option>
+                {% for classificacao in classificacoes %}
+                <option value="{{ classificacao }}" {% if request.GET.classificacao == classificacao|stringformat:"s" %}selected{% endif %}>{{ classificacao }}</option>
+                {% endfor %}
+            </select>
+            <select name="encontrado_por">
+                <option value="">Todos os usuários</option>
+                {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}" {% if request.GET.encontrado_por == usuario.id|stringformat:"s" %}selected{% endif %}>{{ usuario.username }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit"><ion-icon name="search"></ion-icon></button>
+        </form>
+        <table class="atividades-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Texto</th>
+                    <th>Plataforma</th>
+                    <th>Data</th>
+                    <th>Classificação</th>
+                    <th>Idioma</th>
+                    <th>Encontrado por</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for avaliacao in avaliacoes %}
+                <tr>
+                    <td><a href="#">{{ avaliacao.nome }}</a></td>
+                    <td><a href="#">{{ avaliacao.texto }}</a></td>
+                    <td><a href="#">{{ avaliacao.plataforma }}</a></td>
+                    <td><a href="#">{{ avaliacao.data }}</a></td>
+                    <td><a href="#">{{ avaliacao.classificacao }}</a></td>
+                    <td><a href="#">{{ avaliacao.idioma }}</a></td>
+                    <td><a href="#">{{ avaliacao.encontrado_por.username }}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        {% if avaliacoes.has_other_pages %}
+            {% if avaliacoes.has_previous %}
+                <a href="?page=1">&laquo; Primeira</a>
+                <a href="?page={{ avaliacoes.previous_page_number }}">&lsaquo; Anterior</a>
+            {% endif %}
+        
+            <span class="current">Página {{ avaliacoes.number }} de {{ avaliacoes.paginator.num_pages }}</span>
+        
+            {% if avaliacoes.has_next %}
+                <a href="?page={{ avaliacoes.next_page_number }}">Próxima &rsaquo;</a>
+                <a href="?page={{ avaliacoes.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        localStorage.setItem('paginaAtual', 'avaliacoes');
+
+        document.querySelectorAll('.delete-btn').forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const confirmDelete = confirm('Tem certeza que deseja deletar esta atividade?');
+                if (confirmDelete) {
+                    const atividadeId = this.getAttribute('data-id');
+                    window.location.href = `/deletar_atividade/${atividadeId}/`;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+{% endblock %}
