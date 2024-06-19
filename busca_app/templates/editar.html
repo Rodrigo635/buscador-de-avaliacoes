@@ -1,13 +1,11 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block content %}
 
 <div class="content">
 
-    {% load static %}
-
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 
     <h2 class="titulo-cadastro">Editar {{ mensagem }}</h2>
     <form class="activity-form" method="post">

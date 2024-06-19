@@ -12,6 +12,7 @@ from .forms import *
 from django.contrib import messages
 import random
 
+
 def cadastro(request):
     if request.method == "GET":
         return render(request, 'cadastrar.html')
@@ -46,6 +47,7 @@ def login(request):
 def sair(request):
     logout(request)
     return redirect('home')
+
 
 #GRUPOS
 @login_required
@@ -96,7 +98,6 @@ def group_delete(request, pk):
     group.delete()
     messages.info(request, 'Grupo deletada com sucesso.')
     return redirect('grupos')
-
 
 
 #USUÁRIOS

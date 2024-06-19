@@ -8,9 +8,9 @@ urlpatterns = [
     path('cadastrar/', views.cadastro, name='cadastrar'),
     path('logout/', views.sair, name='sair'),
 
-    path('groupos/', views.group_list, name='grupos'),
+    path('grupos/', views.group_list, name='grupos'),
     path('cadastro-grupo/', views.group_create, name='cadastro_grupo'),
-    path('groups/<int:pk>/update/', views.group_update, name='editar_grupo'),
+    path('grupos/<int:pk>/update/', views.group_update, name='editar_grupo'),
     path('deletar_grupo/<int:pk>/', views.group_delete, name='deletar_grupo'),
 
     path('users/', views.user_list, name='users'),
