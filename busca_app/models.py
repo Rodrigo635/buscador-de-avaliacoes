@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Avaliacoes(models.Model):
+    class Meta:
+        ordering = ['-data']
+        
     PLATAFORMA_CHOICES = [
         ('plataforma 1', 'Plataforma 1'),
         ('plataforma 2', 'Plataforma 2'),

@@ -348,13 +348,12 @@ header .navegation a:hover:before {
     background-color: var(--bg2);
     margin-left: 0;
     margin-right: 0;
-    margin-top: 60px;
 }
 
 .hero{
-    background: url('../img/hero.jpg');
+    background: url('../img/hotel.jpg');
     background-size: cover;
-    min-height: 90.5vh;
+    min-height: 100vh;
     color: white;
     display: flex;
     justify-content: center;

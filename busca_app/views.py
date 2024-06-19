@@ -11,6 +11,19 @@ from .models import *
 from .forms import *
 from django.contrib import messages
 import random
+from django.utils import timezone
+
+def buscar(request):
+    num_random = random.randint(1, 7)
+    try:
+        antes_avaliacoes = Avaliacoes.objects.count()
+        gerar_avaliacoes(num_random)
+        depois_avaliacoes = Avaliacoes.objects.count()
+        novas_avaliacoes = depois_avaliacoes - antes_avaliacoes
+        request.session['novas_avaliacoes'] = novas_avaliacoes
+    except Exception as e:
+        return render(request, 'error.html', {'message': f"Erro ao gerar avaliações: {e}"})
+    return redirect('home')
 
 
 def cadastro(request):
@@ -149,15 +162,6 @@ def user_delete(request, pk):
     return redirect('users')
 
 
-def buscar(request):
-    num_random = random.randint(1, 7)
-    try:
-        gerar_avaliacoes(num_random)
-    except Exception as e:
-        return render(request, 'error.html', {'message': f"Erro ao gerar avaliações: {e}"})
-    return redirect('home')
-
-
 def home(request):
     query = request.GET.get('q')
     data = request.GET.get('data')
@@ -192,8 +196,10 @@ def home(request):
     
     plataformas = Avaliacoes.PLATAFORMA_CHOICES
     idiomas = Avaliacoes.IDIOMA_CHOICES
-    classificacoes = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
+    classificacoes = [1, 2, 3, 4, 5]
     usuarios = User.objects.all()
+    
+    novas_avaliacoes = request.session.pop('novas_avaliacoes', None)
     
     return render(request, 'home.html', {
         'avaliacoes': avaliacoes,
@@ -201,4 +207,5 @@ def home(request):
         'idiomas': idiomas,
         'classificacoes': classificacoes,
         'usuarios': usuarios,
+        'novas_avaliacoes': novas_avaliacoes,
     })

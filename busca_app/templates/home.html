@@ -21,6 +21,13 @@
                 </a>
             </div>
         </div>
+
+        {% if novas_avaliacoes %}
+        <div class="alert alert-success">
+            {{ novas_avaliacoes }} novas avaliações foram encontradas!
+        </div>
+        {% endif %}
+
         <form class="search" action="{% url 'home' %}" method="GET">
             <input type="text" name="q" placeholder="Pesquisar por nome..." value="{{ request.GET.q }}">
             <input type="date" name="data" placeholder="Pesquisar por data..." value="{{ request.GET.data }}">
@@ -66,7 +73,7 @@
                 {% for avaliacao in avaliacoes %}
                 <tr>
                     <td><a href="#">{{ avaliacao.nome }}</a></td>
-                    <td><a href="#">{{ avaliacao.classificacao }}</a></td>
+                    <td><a href="#">{{ avaliacao.classificacao }}<ion-icon style="padding-left: 3px; color: rgb(224, 224, 100);" name="star"></ion-icon></a></td>
                     <td><a href="#">{{ avaliacao.texto }}</a></td>
                     <td><a href="#">{{ avaliacao.idioma }}</a></td>
                     <td><a href="#">{{ avaliacao.plataforma }}</a></td>
@@ -110,5 +117,15 @@
     </script>
 
 </body>
+
+{% endblock %}
+
+{% block content2 %}
+
+<section class="block-content2">
+    <div class="hero">
+
+    </div>
+</section>
 
 {% endblock %}
